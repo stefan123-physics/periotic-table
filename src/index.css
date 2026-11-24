@@ -6,6 +6,9 @@
 .grid-cols-18 {
   grid-template-columns: repeat(18, minmax(0, 1fr));
 }
+.col-span-18 {
+  grid-column: span 18 / span 18;
+}
 
 @layer base {
   :root {

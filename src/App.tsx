@@ -26,16 +26,16 @@ useEffect(() => {
       <Router>
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
           <header className="bg-white dark:bg-slate-800 shadow-sm">
-            <div className="container mx-auto p-4">
-              <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            <div className="container mx-auto px-3 py-3 sm:px-4 sm:py-4">
+              <div className="flex flex-row justify-between items-center gap-3">
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                   <Link to="/" onClick={() => setActiveTab('periodic-table')}>
                     Periodic Table
                   </Link>
                 </h1>
                 
                 <div className="flex items-center">
-                  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full sm:w-auto">
+                  <Tabs value={activeTab} onValueChange={setActiveTab}>
                     <TabsList className="dark:bg-slate-700">
                       <TabsTrigger value="periodic-table" asChild className="dark:data-[state=active]:bg-slate-900 dark:text-slate-200">
                         <Link to="/" className="flex items-center gap-1">
@@ -50,7 +50,7 @@ useEffect(() => {
             </div>
           </header>
         
-        <main className="py-6">
+        <main className="py-4 sm:py-6">
           <Routes>
             <Route path="/" element={<PeriodicTable elements={elements} />} />
             <Route path="/element/:atomicNumber" element={<ElementDetail getElementByAtomicNumber={getElementByAtomicNumber} />} />

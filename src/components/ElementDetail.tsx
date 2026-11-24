@@ -23,7 +23,7 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ getElementByAtomicNumber 
 
   if (!element) {
     return (
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto px-3 sm:px-4">
         <Alert variant="destructive">
           <AlertDescription>Element not found</AlertDescription>
         </Alert>
@@ -34,84 +34,62 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ getElementByAtomicNumber 
     );
   }
 
-  return (
-    <div className="container mx-auto p-4">
-      <Button onClick={handleBack} variant="outline" className="mb-4 dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:hover:bg-slate-700">
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Periodic Table
-      </Button>
-      
-        {/* Element Information */}
-               
-+      <div className="flex justify-center"> {/* Changed: Use flexbox to center the card */}
-+        <Card className="dark:bg-slate-800 dark:border-slate-700 w-full max-w-2xl"> {/* Added: w-full and max-w-2xl (or adjust as needed, e.g., max-w-xl) */}
+  const p = element.properties;
+  const rows: [string, React.ReactNode][] = [
+    ['Atomic Mass', p.atomicMass],
+    ['Category', <span className="capitalize">{p.category}</span>],
+  ];
+  if (p.group != null) rows.push(['Group', p.group]);
+  if (p.period != null) rows.push(['Period', p.period]);
+  if (p.electronConfiguration) rows.push(['Electron Configuration', p.electronConfiguration]);
+  if (p.density != null) rows.push(['Density', `${p.density} g/cm³`]);
+  if (p.meltingPoint != null) rows.push(['Melting Point', `${p.meltingPoint} °C`]);
+  if (p.boilingPoint != null) rows.push(['Boiling Point', `${p.boilingPoint} °C`]);
 
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-3xl dark:text-white">{element.name} ({element.symbol})</CardTitle>
-                <CardDescription className="dark:text-slate-300">Atomic Number: {element.atomicNumber}</CardDescription>
+  return (
+    <div className="container mx-auto px-3 sm:px-4">
+      <div className="mx-auto w-full max-w-2xl">
+        <Button
+          onClick={handleBack}
+          variant="outline"
+          className="mb-4 dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:hover:bg-slate-700"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Periodic Table
+        </Button>
+
+        <Card className="dark:bg-slate-800 dark:border-slate-700">
+          <CardHeader className="p-4 sm:p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <CardTitle className="text-2xl sm:text-3xl break-words dark:text-white">
+                  {element.name}
+                </CardTitle>
+                <CardDescription className="dark:text-slate-300">
+                  Atomic Number: {element.atomicNumber}
+                </CardDescription>
               </div>
-              <div className="text-4xl font-bold dark:text-white">{element.symbol}</div>
+              <div className="flex h-16 w-16 sm:h-20 sm:w-20 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 text-3xl sm:text-4xl font-bold dark:text-white">
+                {element.symbol}
+              </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
             <h3 className="text-lg font-semibold mb-2 dark:text-white">Properties</h3>
-            <div className="grid grid-cols-2 gap-2 dark:text-slate-200">
-              <div>Atomic Mass:</div>
-              <div>{element.properties.atomicMass}</div>
-              
-              <div>Category:</div>
-              <div className="capitalize">{element.properties.category}</div>
-              
-              {element.properties.group && (
-                <>
-                  <div>Group:</div>
-                  <div>{element.properties.group}</div>
-                </>
-              )}
-              
-              {element.properties.period && (
-                <>
-                  <div>Period:</div>
-                  <div>{element.properties.period}</div>
-                </>
-              )}
-              
-              {element.properties.electronConfiguration && (
-                <>
-                  <div>Electron Configuration:</div>
-                  <div>{element.properties.electronConfiguration}</div>
-                </>
-              )}
-              
-              {element.properties.density && (
-                <>
-                  <div>Density:</div>
-                  <div>{element.properties.density} g/cm³</div>
-                </>
-              )}
-              
-              {element.properties.meltingPoint && (
-                <>
-                  <div>Melting Point:</div>
-                  <div>{element.properties.meltingPoint} °C</div>
-                </>
-              )}
-              
-              {element.properties.boilingPoint && (
-                <>
-                  <div>Boiling Point:</div>
-                  <div>{element.properties.boilingPoint} °C</div>
-                </>
-              )}
-            </div>
-            
+            <dl className="divide-y divide-slate-100 dark:divide-slate-700">
+              {rows.map(([label, value]) => (
+                <div key={label} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-3 py-2 text-sm sm:text-base">
+                  <dt className="text-slate-500 dark:text-slate-400">{label}</dt>
+                  <dd className="break-words text-slate-900 dark:text-slate-100">{value}</dd>
+                </div>
+              ))}
+            </dl>
+
             <Separator className="my-4 dark:bg-slate-700" />
-            
+
             <h3 className="text-lg font-semibold mb-2 dark:text-white">Earthly Items</h3>
             <div className="space-y-2">
               {element.earthItems.map((item, index) => (
-                <div key={index} className="p-2 bg-slate-50 dark:bg-slate-700 rounded-md">
+                <div key={index} className="p-3 bg-slate-50 dark:bg-slate-700 rounded-md">
                   <div className="font-medium dark:text-white">{item.name}</div>
                   <div className="text-sm text-slate-600 dark:text-slate-400">{item.use}</div>
                 </div>
@@ -119,7 +97,6 @@ const ElementDetail: React.FC<ElementDetailProps> = ({ getElementByAtomicNumber 
             </div>
           </CardContent>
         </Card>
-        {/* AI Query Card was here and is now removed */}
       </div>
     </div>
   );
