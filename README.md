@@ -1,6 +1,6 @@
 # Interactive Periodic Table 🧪
 
-**🌐 Live Demo: [https://periodic-table.raimonvibe.com/](https://periodic-table.raimonvibe.com/)**
+**🌐 Live Demo: [https://periotic-table.vercel.app/](https://periotic-table.vercel.app/)**
 
 A comprehensive interactive periodic table application with detailed element information and dark/light mode support. Explore the elements like never before!
 
